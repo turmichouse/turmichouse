@@ -10,8 +10,35 @@ function Form() {
     const [quantity, setQuantity] = useState('');
     const [showPDF, setShowPDF] = useState(false); // Track PDF display state
     const itemNameRef = useRef(null); // Ref for the Item Name input
-    // ... (other state and functions)
+    const [orderNumber, setOrderNumber] = useState('');
+    const [orderHistory, setOrderHistory] = useState([]);
 
+    const [orderDate, setDate] = useState('');
+
+    const currentDate = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = currentDate.toLocaleDateString(undefined, options);
+
+    const generateRandomOrderNumber = () => {
+        const randomNumber = Math.floor(Math.random() * 1000000); // Generate a random number between 0 and 999999
+        const formattedOrderNumber = `  ${randomNumber.toString().padStart(6, '0')}`; // Format the order number
+
+        return formattedOrderNumber;
+    }
+    const getCurrentDateTime = () => {
+        const currentDate = new Date();
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+        };
+        const formattedDateTime = currentDate.toLocaleDateString(undefined, options);
+        return formattedDateTime;
+    };
 
     // Handle form submission
     const handleSubmit = (e) => {
@@ -25,10 +52,29 @@ function Form() {
         };
         newItem.total = newItem.unitPrice * newItem.quantity;
         setItems([...items, newItem]);
+        const submissionDateTime = getCurrentDateTime();
+        setDate(submissionDateTime);
+
         setItemName('');
         setUnitPrice('');
         setQuantity('');
         setShowPDF(false); // Hide PDF when new item is added
+
+        const newOrderNumber = generateRandomOrderNumber();
+        setOrderNumber(newOrderNumber);
+
+
+
+        // Update order history
+        const newOrder = {
+            orderNumber: newOrderNumber,
+            orderDate: submissionDateTime,
+            items: [...items, newItem],
+            grandTotal: items.reduce((total, item) => total + item.total, 0),
+        };
+
+        setOrderHistory([...orderHistory, newOrder]);
+
     };
 
     // Handle item removal
@@ -43,7 +89,7 @@ function Form() {
         return (
             <Document>
                 <Page style={styles.page}>
-                    <Text style={styles.header}>Invoice</Text>
+                    <Text style={styles.header}>Invoice date:{orderDate} </Text>
                     <View>
                         <View style={styles.table}>
                             <View style={styles.tableRow}>
@@ -72,12 +118,14 @@ function Form() {
     };
 
 
-
     // Render the form, list of items, and PDF viewer
     return (
         <div>
+
             <form onSubmit={handleSubmit}>
                 <div className='container py-5'>
+
+                    <h4>Date:{formattedDate} </h4>
                     <div className="row ">
                         <div className="col-md-3">
                             <input
@@ -113,8 +161,10 @@ function Form() {
                         </div>
                     </div></div>
             </form>
+
             {items.length > 0 && (
                 <div className='container'>
+                    <h6>Date:{orderDate} || {orderNumber}</h6>
                     <h2>Items List:</h2>
                     <table className="table table-bordered ">
                         <thead>
@@ -138,8 +188,12 @@ function Form() {
                                     </td>
                                 </tr>
                             ))}
+
+
                         </tbody>
                     </table>
+                    <button className="btn btn-success" style={{ marginRight: '2rem' }} onClick={() => setItems([])}>Remove All</button>
+
                     <button onClick={() => setShowPDF(!showPDF)} className="btn btn-success">Generate PDF</button>
                     {showPDF && (
                         <div style={{ marginTop: '20px' }}>
@@ -157,7 +211,7 @@ function Form() {
 
 const styles = StyleSheet.create({
     page: { padding: 20 },
-    header: { fontSize: 24, marginBottom: 10 },
+    header: { fontSize: 18, marginBottom: 10 },
     table: {
         display: 'table',
         width: '100%',
