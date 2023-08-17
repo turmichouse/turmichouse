@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/turmichouse/static/css/main.13679d25.css",
-    "main.js": "/turmichouse/static/js/main.90e13ee2.js",
+    "main.css": "/turmichouse/static/css/main.d4e5e556.css",
+    "main.js": "/turmichouse/static/js/main.06e424a9.js",
     "static/js/787.be093bf9.chunk.js": "/turmichouse/static/js/787.be093bf9.chunk.js",
+    "static/media/logo.png": "/turmichouse/static/media/logo.81e2eee7dce07ac6302e.png",
     "index.html": "/turmichouse/index.html",
-    "main.13679d25.css.map": "/turmichouse/static/css/main.13679d25.css.map",
-    "main.90e13ee2.js.map": "/turmichouse/static/js/main.90e13ee2.js.map",
+    "main.d4e5e556.css.map": "/turmichouse/static/css/main.d4e5e556.css.map",
+    "main.06e424a9.js.map": "/turmichouse/static/js/main.06e424a9.js.map",
     "787.be093bf9.chunk.js.map": "/turmichouse/static/js/787.be093bf9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.13679d25.css",
-    "static/js/main.90e13ee2.js"
+    "static/css/main.d4e5e556.css",
+    "static/js/main.06e424a9.js"
   ]
 }
