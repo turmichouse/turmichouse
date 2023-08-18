@@ -16,8 +16,10 @@ function Form() {
     const [quantity, setQuantity] = useState('');
     const [showPDF, setShowPDF] = useState(false); // Track PDF display state
     const itemNameRef = useRef(null); // Ref for the Item Name input
-
+    const [footerNote, setFooterNote] = useState('');
     const [orderDate, setDate] = useState('');
+
+
     const currentDate = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = currentDate.toLocaleDateString(undefined, options);
@@ -182,6 +184,7 @@ function Form() {
                 clearAllDataHeader={clearAllDataHeader}
                 orderType={orderType}
 
+
             />
             <div style={{ height: '3px', width: '100%', backgroundColor: 'white', marginTop: '1rem' }}></div>
 
@@ -194,7 +197,8 @@ function Form() {
                 setItemDescription={setItemDescription}
                 setUnitPrice={setUnitPrice}
                 setQuantity={setQuantity}
-                handleSubmit={handleSubmit}
+                handleSubmit={handleSubmit} footerNote={footerNote}
+                setFooterNote={setFooterNote}
                 itemNameRef={itemNameRef} // Pass the itemNameRef here
             />
 
@@ -217,6 +221,7 @@ function Form() {
                                     selectedAmPm={selectedAmPm}
                                     orderType={orderType}
                                     itemDescription={itemDescription}
+                                    footerNote={footerNote}
                                     items={items} orderDate={orderDate} orderNumber={orderNumber} />
                             </PDFViewer>
                         </div>

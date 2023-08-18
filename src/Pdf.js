@@ -12,6 +12,7 @@ const PDFDocument = ({
     orderType,
     items,
     orderDate,
+    footerNote,
     orderNumber, itemDescription
 
 }) => {
@@ -65,8 +66,11 @@ const PDFDocument = ({
                                     <Text style={styles.tableCell}>${item.unitPrice.toFixed(2)}</Text>
                                     <Text style={styles.tableCell}>${item.total.toFixed(2)}</Text>
                                 </View>
-                                <View style={[styles.fullWidthDescription]}>
-                                    <Text style={styles.fullWidthDescriptionText}>
+                                <View
+                                    style={[styles.fullWidthDescription, styles.tableRow]}>
+                                    <Text style={[styles.fullWidthDescriptionText,
+                                    styles.tableCellss,
+                                    styles.tableCellNoBorder]}>
                                         Special Instruction: {item.itemDescription}
                                     </Text>
                                 </View>
@@ -77,6 +81,10 @@ const PDFDocument = ({
                     <View style={styles.grandTotalRow}>
                         <Text style={styles.grandTotalLabel}>Grand Total:</Text>
                         <Text style={styles.grandTotalValue}>${grandTotal.toFixed(2)}</Text>
+                    </View>
+
+                    <View style={styles.grandTotalRow}>
+                        <Text style={styles.grandTotalLabels}>Special Note: {footerNote}</Text>
                     </View>
                 </View>
             </Page>
@@ -104,6 +112,14 @@ const styles = StyleSheet.create({
         display: 'table',
         width: '100%',
         marginBottom: 10,
+    },
+    tableCellNoBorder: {
+        width: '100%',
+        padding: 5,
+        textAlign: 'left',
+        whiteSpace: 'nowrap',
+        fontSize: 10,
+        borderRightWidth: 0, // Remove right border
     },
     tableRow: {
         flexDirection: 'row',
@@ -148,6 +164,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderRightColor: '#000',
         borderRightStyle: 'solid',
+        fontSize: 10
     },
     tableCell: {
         width: '30%',
@@ -155,6 +172,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         borderRightWidth: 1,
         borderRightColor: '#000',
+        borderLeftWidth: 1,
+        borderleftColor: '#000',
+        borderLeftStyle: 'solid',
+        borderRightStyle: 'solid', whiteSpace: 'nowrap', // Prevent text wrapping
+        fontSize: '10px'
+    },
+    tableCellss: {
+        width: '100%',
+        padding: 5,
+        textAlign: 'center',
+        borderRightWidth: 1,
+        borderRightColor: '#000',
+        borderLeftWidth: 1,
+        borderleftColor: '#000',
+        borderLeftStyle: 'solid',
         borderRightStyle: 'solid', whiteSpace: 'nowrap', // Prevent text wrapping
         fontSize: '10px'
     },
@@ -162,7 +194,14 @@ const styles = StyleSheet.create({
         cursor: 'pointer',
         color: 'red',
         textDecoration: 'underline',
-    }, grandTotalRow: {
+    },
+    grandTotalLabels: {
+        width: '100%',
+        textAlign: 'left',
+        fontSize: '12px',
+        fontWeight: 'bold',
+    },
+    grandTotalRow: {
         flexDirection: 'row',
         marginTop: 10,
         borderTopWidth: 1,

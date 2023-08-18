@@ -11,7 +11,9 @@ const InputForm = ({
     setUnitPrice,
     setQuantity,
     handleSubmit,
-    itemNameRef
+    itemNameRef,
+    footerNote,
+    setFooterNote
 }) => {
     useEffect(() => {
         if (itemNameRef.current) {
@@ -19,7 +21,7 @@ const InputForm = ({
         }
     }, [itemNameRef]);
 
-
+    console.log(footerNote);
     return (
         <form onSubmit={handleSubmit}>
             <div className=' py-5'>
@@ -77,6 +79,15 @@ const InputForm = ({
                         <button type="submit" className="btn btn-primary">Add Item</button>
                     </div>
 
+                </div>
+                <div className='row'>
+                    <input
+                        type="text"
+                        className="form-control mt-5"
+                        placeholder="Special Note"
+                        value={footerNote}
+                        onChange={(e) => setFooterNote(e.target.value)}
+                    />
                 </div>
             </div>
         </form>
