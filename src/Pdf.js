@@ -1,6 +1,6 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import logoImage from './logo/logo.png'; // Adjust the path accordingly
 const PDFDocument = ({
     soldtoName,
     soldtoPhone,
@@ -12,34 +12,43 @@ const PDFDocument = ({
     orderType,
     items,
     orderDate,
-    orderNumber,
+    orderNumber, itemDescription
 
 }) => {
     const grandTotal = items.length > 0 ? items.reduce((total, item) => total + item.total, 0) : 0;
 
     return (
         <Document>
-            <Page style={styles.page}>
-                {/* Header */}
-                <View style={styles.headerSection}>
-                    <View style={styles.column}>
-                        <Text style={styles.header}>Sold to: {soldtoName}</Text>
-                        <Text style={styles.header}>Phone: {soldtoPhone}</Text>
-                    </View>
-                    <View style={styles.column}>
+            <Page size="A4" style={styles.page}>
+                <View style={styles.centeredView}>
+                    <Image src={logoImage} style={[styles.logoImage, { marginBottom: 10 }]} />                </View>
 
-                        <Text style={styles.header}>Order Type: {orderType}</Text>
-                        <Text style={styles.header}>Deliver to: {deliveryTo}</Text>
-
+                <View style={styles.headerSesction}>
+                    <View style={styles.headerSection}>
+                        <View style={[styles.column, styles.column1]}>
+                            {soldtoName && <Text style={[styles.header]}>Sold to: {soldtoName}</Text>}
+                            {soldtoPhone && <Text style={[styles.header]}>Phone: {soldtoPhone}</Text>}
+                        </View>
+                        <View style={[styles.column, styles.column2]}>
+                            {orderType && <Text style={[styles.header]}>Order Type: {orderType}</Text>}
+                            {deliveryTo && <Text style={[styles.header]}>Deliver to: {deliveryTo}</Text>}
+                        </View>
+                        <View style={[styles.column, styles.column3]}>
+                            {selectedDate && <Text style={[styles.header]}>Date: {selectedDate}</Text>}
+                            {selectedEventDate && (
+                                <Text style={[styles.header]}>
+                                    Event date: {selectedEventDate.toDateString()}
+                                </Text>
+                            )}
+                            {selectedTime && (
+                                <Text style={[styles.header]}>
+                                    Pick-Up/Deliver By Time: {selectedTime} {selectedAmPm}
+                                </Text>
+                            )}
+                        </View>
                     </View>
-                    <View style={styles.column}>
-                        <Text style={styles.header}>Date:{selectedDate}</Text>
-                        {selectedEventDate && (
-                            <Text style={styles.header}>Event date: {selectedEventDate.toDateString()}</Text>
-                        )}
-                        <Text style={styles.header}>Pick-Up/Deliver By Time: {selectedTime} {selectedAmPm}</Text>
 
-                    </View>
+
                     <Text style={styles.header}>Invoice date: {orderDate} || Order Number: {orderNumber}</Text>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
@@ -49,14 +58,22 @@ const PDFDocument = ({
                             <Text style={styles.tableHeader}>Total</Text>
                         </View>
                         {items.map((item, index) => (
-                            <View style={styles.tableRow} key={index}>
-                                <Text style={styles.tableCell}>{item.itemName}</Text>
-                                <Text style={styles.tableCell}>{item.quantity}</Text>
-                                <Text style={styles.tableCell}>${item.unitPrice.toFixed(2)}</Text>
-                                <Text style={styles.tableCell}>${item.total.toFixed(2)}</Text>
+                            <View key={index}>
+                                <View style={styles.tableRow}>
+                                    <Text style={styles.tableCell}>{item.itemName}</Text>
+                                    <Text style={styles.tableCell}>{item.quantity}</Text>
+                                    <Text style={styles.tableCell}>${item.unitPrice.toFixed(2)}</Text>
+                                    <Text style={styles.tableCell}>${item.total.toFixed(2)}</Text>
+                                </View>
+                                <View style={[styles.fullWidthDescription]}>
+                                    <Text style={styles.fullWidthDescriptionText}>
+                                        Special Instruction: {item.itemDescription}
+                                    </Text>
+                                </View>
                             </View>
                         ))}
                     </View>
+
                     <View style={styles.grandTotalRow}>
                         <Text style={styles.grandTotalLabel}>Grand Total:</Text>
                         <Text style={styles.grandTotalValue}>${grandTotal.toFixed(2)}</Text>
@@ -67,8 +84,22 @@ const PDFDocument = ({
     );
 };
 const styles = StyleSheet.create({
+    headerSesction: { marginTop: '6rem' },
     page: { padding: 20 },
-    header: { fontSize: 14, marginBottom: 10 },
+    header: { fontSize: '10px', marginBottom: 10 },
+    centeredView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '70rem',
+        height: '70rem',
+        marginHorizontal: 'auto',
+        marginBottom: '20rem'
+
+    },
+    logoImage: {
+        width: '100%',
+        height: '100%',
+    },
     table: {
         display: 'table',
         width: '100%',
@@ -79,6 +110,34 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#000',
         borderBottomStyle: 'solid',
+    }, fullWidthDescription: {
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: '#000',
+        borderBottomStyle: 'solid',
+    },
+    headerSection: {
+        flexDirection: 'row',
+        marginBottom: 10,
+    },
+    column: {
+        flexDirection: 'column',
+        paddingHorizontal: 10,
+    },
+    column1: {
+        width: '30%', // Adjust the width as needed
+    },
+    column2: {
+        width: '40%', // Adjust the width as needed
+    },
+    column3: {
+        width: '30%', // Adjust the width as needed
+    },
+
+    fullWidthDescriptionText: {
+        width: '100%',
+        padding: 5,
+        fontSize: 10,
     },
     tableHeader: {
         width: '30%',

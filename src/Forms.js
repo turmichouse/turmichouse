@@ -216,6 +216,7 @@ function Form() {
                                     selectedTime={selectedTime}
                                     selectedAmPm={selectedAmPm}
                                     orderType={orderType}
+                                    itemDescription={itemDescription}
                                     items={items} orderDate={orderDate} orderNumber={orderNumber} />
                             </PDFViewer>
                         </div>

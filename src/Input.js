@@ -30,6 +30,7 @@ const InputForm = ({
                             <div className="row">
                                 <div className="col-md-12">
                                     <input
+                                        required="true"
                                         type="text"
                                         className="form-control"
                                         placeholder="Item Name"
@@ -43,7 +44,7 @@ const InputForm = ({
                         </div>
                     </div>
                     <div className="col-md-4">
-                        <input
+                        <input required="true"
                             type="number"
                             step="0.01"
                             className="form-control"
@@ -54,6 +55,7 @@ const InputForm = ({
                     </div>
                     <div className="col-md-4">
                         <input
+                            required="true"
                             type="number"
                             className="form-control"
                             placeholder="Quantity"
@@ -63,6 +65,7 @@ const InputForm = ({
                     </div>
                     <div className="col-md-12 mt-2">
                         <input
+
                             type="text"
                             className="form-control mb-2"
                             placeholder="Special Instruction"
