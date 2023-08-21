@@ -12,7 +12,7 @@ const CustomDatePickerInput = ({ value, onClick }) => (
     </button>
 );
 export default function Header({
-    name,
+    name, emailAddress, setEmailAddress,
     changeSoldName,
     phone,
     changePhone,
@@ -41,6 +41,12 @@ export default function Header({
                             placeholder="Phone Number"
                             value={phone}
                             onChange={(e) => changePhone(e.target.value)} />
+
+                        <input type="email"
+                            className="form-control mt-2"
+                            placeholder="Email Address"
+                            value={emailAddress}
+                            onChange={(e) => setEmailAddress(e.target.value)} />
                     </div>
                 </div>
 

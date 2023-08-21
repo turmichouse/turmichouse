@@ -29,6 +29,7 @@ function Form() {
     //header
     const [soldtoName, setSoldtoName] = useState('');
     const [soldtoPhone, setSoldtoPhone] = useState('');
+    const [emailAddress, setEmailAddress] = useState('');
     const [deliveryTo, setDeliveryTo] = useState('');
     const [selectedTime, setSelectedTime] = useState(getDefaultTime());
     const [selectedAmPm, setSelectedAmPm] = useState('AM');
@@ -37,7 +38,7 @@ function Form() {
     const [selectedEventDate, setSelectedEventDate] = useState(null);
     const [incremnt, setIncrement] = useState(1);
     const [orderNumber, setOrderNumber] = useState(''); // Initialize order number
-
+    const [tipsCat, setCatTips] = useState('0');
 
     function getDefaultTime() {
         const now = new Date();
@@ -48,6 +49,12 @@ function Form() {
     const handleTimeChange = (event) => {
         const newTime = event.target.value;
         setSelectedTime(newTime);
+    };
+
+    const handlesetCatTips = (value) => {
+        const tipAount = parseFloat(value);
+        setCatTips(tipAount); // Convert the string to a number
+
     };
 
 
@@ -164,6 +171,8 @@ function Form() {
                     style={{ maxWidth: '100px' }}
                 /></div>
             <Header
+                emailAddress={emailAddress}
+                setEmailAddress={setEmailAddress}
                 name={soldtoName}
                 changeSoldName={changeSoldName}
                 phone={soldtoPhone}
@@ -185,6 +194,7 @@ function Form() {
                 orderType={orderType}
 
 
+
             />
             <div style={{ height: '3px', width: '100%', backgroundColor: 'white', marginTop: '1rem' }}></div>
 
@@ -200,6 +210,9 @@ function Form() {
                 handleSubmit={handleSubmit} footerNote={footerNote}
                 setFooterNote={setFooterNote}
                 itemNameRef={itemNameRef} // Pass the itemNameRef here
+
+                tipsCat={tipsCat}
+                handlesetCatTips={handlesetCatTips}
             />
 
             {items.length > 0 && (
@@ -213,6 +226,7 @@ function Form() {
                             <h2>Generated PDF:</h2>
                             <PDFViewer style={{ width: '100%', height: '500px' }}>
                                 <PDFDocument soldtoName={soldtoName}
+                                    emailAddress={emailAddress}
                                     soldtoPhone={soldtoPhone}
                                     deliveryTo={deliveryTo}
                                     selectedDate={setDateheader}
@@ -222,6 +236,7 @@ function Form() {
                                     orderType={orderType}
                                     itemDescription={itemDescription}
                                     footerNote={footerNote}
+                                    tipsCat={tipsCat}
                                     items={items} orderDate={orderDate} orderNumber={orderNumber} />
                             </PDFViewer>
                         </div>

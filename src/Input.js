@@ -13,7 +13,9 @@ const InputForm = ({
     handleSubmit,
     itemNameRef,
     footerNote,
-    setFooterNote
+    setFooterNote,
+    tipsCat,
+    handlesetCatTips
 }) => {
     useEffect(() => {
         if (itemNameRef.current) {
@@ -21,7 +23,6 @@ const InputForm = ({
         }
     }, [itemNameRef]);
 
-    console.log(footerNote);
     return (
         <form onSubmit={handleSubmit}>
             <div className=' py-5'>
@@ -87,6 +88,16 @@ const InputForm = ({
                         placeholder="Special Note"
                         value={footerNote}
                         onChange={(e) => setFooterNote(e.target.value)}
+                    />
+                </div>
+                <div className='row'>
+                    <label className='mt-2'>Catering Tips:</label>
+                    <input
+                        type="number"
+                        className="form-control mt-1"
+                        placeholder="Catering Tips"
+                        value={tipsCat}
+                        onChange={(e) => handlesetCatTips(e.target.value)}
                     />
                 </div>
             </div>

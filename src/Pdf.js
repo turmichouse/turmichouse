@@ -13,11 +13,17 @@ const PDFDocument = ({
     items,
     orderDate,
     footerNote,
-    orderNumber, itemDescription
+    emailAddress,
+    orderNumber, tipsCat
 
 }) => {
-    const grandTotal = items.length > 0 ? items.reduce((total, item) => total + item.total, 0) : 0;
+    const grandSubTotal = items.length > 0 ? items.reduce((total, item) => total + item.total, 0) : 0;
+    // Calculate tip amount based on tipsCat
 
+    // Convert tipsCat to a number if it's a valid number
+    const tipsCatAsNumber = parseFloat(tipsCat);
+    const validTipsCat = isNaN(tipsCatAsNumber) ? 0 : tipsCatAsNumber;
+    const grandTotal = grandSubTotal + validTipsCat;
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -29,6 +35,9 @@ const PDFDocument = ({
                         <View style={[styles.column, styles.column1]}>
                             {soldtoName && <Text style={[styles.header]}>Sold to: {soldtoName}</Text>}
                             {soldtoPhone && <Text style={[styles.header]}>Phone: {soldtoPhone}</Text>}
+                            {emailAddress && <Text style={[styles.header]}>
+                                Email: {emailAddress}</Text>}
+
                         </View>
                         <View style={[styles.column, styles.column2]}>
                             {orderType && <Text style={[styles.header]}>Order Type: {orderType}</Text>}
@@ -77,14 +86,23 @@ const PDFDocument = ({
                             </View>
                         ))}
                     </View>
-
+                    <View style={styles.grandTotalRow}>
+                        <Text style={styles.grandSubLabel}>Sub Total:</Text>
+                        <Text style={styles.grandsubValue}>${grandSubTotal.toFixed(2)}</Text>
+                    </View>
+                    {
+                        validTipsCat !== 0 && <View style={styles.grandTotalRow}>
+                            <Text style={styles.grandSubLabel}>Catering Tip:</Text>
+                            <Text style={styles.grandsubValue}>${tipsCat}</Text>
+                        </View>
+                    }
                     <View style={styles.grandTotalRow}>
                         <Text style={styles.grandTotalLabel}>Grand Total:</Text>
                         <Text style={styles.grandTotalValue}>${grandTotal.toFixed(2)}</Text>
                     </View>
-
                     <View style={styles.grandTotalRow}>
-                        <Text style={styles.grandTotalLabels}>Special Note: {footerNote}</Text>
+                        {footerNote && <Text style={[styles.grandTotalLabels]}>
+                            Special Note: {footerNote}</Text>}
                     </View>
                 </View>
             </Page>
@@ -101,7 +119,7 @@ const styles = StyleSheet.create({
         width: '70rem',
         height: '70rem',
         marginHorizontal: 'auto',
-        marginBottom: '20rem'
+        marginBottom: 20
 
     },
     logoImage: {
@@ -208,6 +226,18 @@ const styles = StyleSheet.create({
         borderTopColor: '#000',
         borderTopStyle: 'solid',
         paddingTop: 5,
+    },
+    grandSubLabel: {
+        fontSize: 12,
+        width: '80%',
+        textAlign: 'right',
+        fontWeight: 'bold',
+    },
+    grandsubValue: {
+        fontSize: 12,
+        width: '20%',
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
     grandTotalLabel: {
         width: '80%',
