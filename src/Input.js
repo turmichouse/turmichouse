@@ -15,7 +15,9 @@ const InputForm = ({
     footerNote,
     setFooterNote,
     tipsCat,
-    handlesetCatTips
+    handlesetCatTips,
+    deliveryFee,
+    handleSetDeliveryFee, tax, handleTax
 }) => {
     useEffect(() => {
         if (itemNameRef.current) {
@@ -98,6 +100,26 @@ const InputForm = ({
                         placeholder="Catering Tips"
                         value={tipsCat}
                         onChange={(e) => handlesetCatTips(e.target.value)}
+                    />
+                </div>
+                <div className='row'>
+                    <label className='mt-2'>Delivery Fee:</label>
+                    <input
+                        type="number"
+                        className="form-control mt-1"
+                        placeholder="Delivery Fee"
+                        value={deliveryFee}
+                        onChange={(e) => handleSetDeliveryFee(e.target.value)}
+                    />
+                </div>
+                <div className='row'>
+                    <label className='mt-2'>Tax:</label>
+                    <input
+                        type="number"
+                        className="form-control mt-1"
+                        placeholder="Tax"
+                        value={tax}
+                        onChange={(e) => handleTax(e.target.value)}
                     />
                 </div>
             </div>

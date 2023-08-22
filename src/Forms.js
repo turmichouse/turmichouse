@@ -39,6 +39,8 @@ function Form() {
     const [incremnt, setIncrement] = useState(1);
     const [orderNumber, setOrderNumber] = useState(''); // Initialize order number
     const [tipsCat, setCatTips] = useState('0');
+    const [deliveryFee, setDeliveryFee] = useState('0');
+    const [tax, setTax] = useState('');
 
     function getDefaultTime() {
         const now = new Date();
@@ -50,12 +52,20 @@ function Form() {
         const newTime = event.target.value;
         setSelectedTime(newTime);
     };
+    const handleTax = (value) => {
+        const number = value;
+        setTax(number);
+    }
 
     const handlesetCatTips = (value) => {
         const tipAount = parseFloat(value);
         setCatTips(tipAount); // Convert the string to a number
 
     };
+    const handleSetDeliveryFee = (value) => {
+        const deliveryFee = parseFloat(value);
+        setDeliveryFee(deliveryFee);
+    }
 
 
     const handleAmPmChange = (event) => {
@@ -158,6 +168,7 @@ function Form() {
         updatedItems.splice(index, 1);
         setItems(updatedItems);
     };
+    console.log(deliveryFee);
 
 
     // Render the form, list of items, and PDF viewer
@@ -213,6 +224,10 @@ function Form() {
 
                 tipsCat={tipsCat}
                 handlesetCatTips={handlesetCatTips}
+                deliveryFee={deliveryFee}
+                handleSetDeliveryFee={handleSetDeliveryFee}
+                tax={tax}
+                handleTax={handleTax}
             />
 
             {items.length > 0 && (
@@ -237,6 +252,8 @@ function Form() {
                                     itemDescription={itemDescription}
                                     footerNote={footerNote}
                                     tipsCat={tipsCat}
+                                    deliveryFee={deliveryFee}
+                                    tax={tax}
                                     items={items} orderDate={orderDate} orderNumber={orderNumber} />
                             </PDFViewer>
                         </div>

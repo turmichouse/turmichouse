@@ -14,7 +14,7 @@ const PDFDocument = ({
     orderDate,
     footerNote,
     emailAddress,
-    orderNumber, tipsCat
+    orderNumber, tipsCat, deliveryFee, tax
 
 }) => {
     const grandSubTotal = items.length > 0 ? items.reduce((total, item) => total + item.total, 0) : 0;
@@ -23,7 +23,20 @@ const PDFDocument = ({
     // Convert tipsCat to a number if it's a valid number
     const tipsCatAsNumber = parseFloat(tipsCat);
     const validTipsCat = isNaN(tipsCatAsNumber) ? 0 : tipsCatAsNumber;
-    const grandTotal = grandSubTotal + validTipsCat;
+
+    const taxNumber = parseFloat(tax);
+    const validTax = isNaN(taxNumber) ? 0 : taxNumber;
+
+    const taxAmount = (grandSubTotal * validTax) / 100;
+
+
+
+
+    const deliveryfeeNumber = parseFloat(deliveryFee);
+    const valiDeliveryFee = isNaN(deliveryfeeNumber) ? 0 : deliveryfeeNumber;
+    const finalDelivery = valiDeliveryFee;
+    const grandTotal = grandSubTotal + validTipsCat + finalDelivery + taxAmount;
+
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -94,6 +107,18 @@ const PDFDocument = ({
                         validTipsCat !== 0 && <View style={styles.grandTotalRow}>
                             <Text style={styles.grandSubLabel}>Catering Tip:</Text>
                             <Text style={styles.grandsubValue}>${tipsCat}</Text>
+                        </View>
+                    }
+                    {
+                        finalDelivery !== 0 && <View style={styles.grandTotalRow}>
+                            <Text style={styles.grandSubLabel}>Delivery Fee:</Text>
+                            <Text style={styles.grandsubValue}>${deliveryfeeNumber}</Text>
+                        </View>
+                    }
+                    {
+                        validTax !== 0 && <View style={styles.grandTotalRow}>
+                            <Text style={styles.grandSubLabel}>Tax {taxNumber}%:</Text>
+                            <Text style={styles.grandsubValue}>${taxAmount}</Text>
                         </View>
                     }
                     <View style={styles.grandTotalRow}>
